@@ -12,7 +12,7 @@ public class MultipleLogMsg {
         /*
          * Just doing this via Code. Log4.properties has the same effect!
          
-        EasilydoAppender a4 = new EasilydoAppender();
+        RemoteAppender a4 = new RemoteAppender();
         a4.setEnvironment("load-test");
         a4.setDestination("192.168.100.8:2464");
         logger.addAppender(a4);
