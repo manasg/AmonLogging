@@ -11,6 +11,7 @@ Why?
 - Alerts/Notifications and a good UI is a must
 - And I have always liked logs as streams - http://adam.heroku.com/past/2011/4/1/logs_are_streams_not_files/
 - This is just the first step in that direction
+- Wrappers are nice. If we move to another system from Amon - only the appender code needs to change. 
 
 ToDo
 =====
