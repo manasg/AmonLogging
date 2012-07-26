@@ -16,8 +16,18 @@ import org.apache.log4j.spi.LoggingEvent;
 
 public class RemoteAppender extends AppenderSkeleton {
     protected String destination = "localhost:2464";
-    protected String environment;
-    protected String hostname;
+    protected String environment = "unknown_env";
+    protected String hostname = "";
+    
+    public String getHostname() {
+        return hostname;
+    }
+
+
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
+    }
+
 
     private String getDestinationURL() {
         StringBuffer sb = new StringBuffer();
@@ -46,6 +56,7 @@ public class RemoteAppender extends AppenderSkeleton {
     }
 
     public RemoteAppender() {
+        // default
         this.setThreshold(Level.WARN);
         
         // try to get the IP/hostname
