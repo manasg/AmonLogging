@@ -1,16 +1,8 @@
 package com.github.manasg.logging.test;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Date;
-
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-
-import com.github.manasg.logging.RemoteAppender;
-
 
 public class Simple {
 
