@@ -25,6 +25,11 @@ Usage
 - A sample log4j.properties is included as well
 - To import project in eclipse - use gradle eclipse
 
+Dependencies
+============
+- build.gradle lists the required jars (not the transitive dependencies)
+- You can use the task gradle dependencies to get an explicit list
+
 License
 =======
 MIT License. See LICENSE
