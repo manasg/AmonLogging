@@ -17,7 +17,6 @@ ToDo
 =====
 - Non-blocking calls, using ZeroMQ OR AsyncHTTPClient
 - Or use smart connection pooling
-- Add jar targets in build.gradle
 
 Usage
 =====
