@@ -22,7 +22,9 @@ public class AmonPlusAppender extends AppenderSkeleton {
     String destinationIp;
     String destinationPort;
     String appName;
-
+    // We keep the same ZMQ object for as long as we can.
+    ZeroMQTransport z;
+    
     public AmonPlusAppender() {
         this.threshold = Level.WARN;
 
@@ -33,6 +35,7 @@ public class AmonPlusAppender extends AppenderSkeleton {
                 this.hostname = "unknown";
             }
         }
+        // initializing z here creates a problem as desintationIP, port are null at this point
     }
 
     private String getDestinationURL() {
@@ -42,9 +45,16 @@ public class AmonPlusAppender extends AppenderSkeleton {
                 .append(this.key);
         return sb.toString();
     }
+    
+    private String getZMQAddress() {
+        return new StringBuffer().append(this.destinationIp)
+                .append(":")
+                .append(this.destinationPort).toString();
+    }
 
     @Override
     public void close() {
+        z.close();
     }
 
     @Override
@@ -73,6 +83,16 @@ public class AmonPlusAppender extends AppenderSkeleton {
         sb.append(" - ");
         sb.append(e.getRenderedMessage());
 
+        // INFR-122 : Including Exception as part of log message
+        // Amon lets you send exceptions separately, but we use logs for now.
+        // Using HTML "<BR>" as a line break. It makes it look nicer on the web-console
+        String[] exceptionStackTrace = e.getThrowableStrRep();
+        if (null != exceptionStackTrace) {
+            for (String line : exceptionStackTrace) {
+                sb.append("<br>").append(line);
+            }
+        }
+        
         return sb.toString();
     }
 
@@ -84,6 +104,23 @@ public class AmonPlusAppender extends AppenderSkeleton {
 
     @Override
     protected void append(LoggingEvent event) {
+        appendViaZMQ(event);
+        //appendViaHTTP(event);
+    }
+    
+   
+    private void appendViaZMQ(LoggingEvent event) {
+        if (null==z) {
+            z = new ZeroMQTransport(getZMQAddress());
+        }
+        
+        // TODO -   Buffer this. Currently this sends each message in its own packet, 
+        //          while the Python implementation buffers it - reducing number of packets.
+        z.post(this.key, this.generateMessage(event), this.gatherTags(event));
+         
+    }
+
+    private void appendViaHTTP(LoggingEvent event) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(getDestinationURL());
 

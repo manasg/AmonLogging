@@ -7,7 +7,7 @@ public class MultipleLogMsg {
 
     public static long multipleLogs(int number) {
         Logger logger = Logger.getLogger("multi");
-        PropertyConfigurator.configure("conf/log4j.properties");
+        PropertyConfigurator.configure("conf/amonplus.log4j.properties");
         
         /*
          * Just doing this via Code. Log4.properties has the same effect!
@@ -20,8 +20,9 @@ public class MultipleLogMsg {
         */
         long start = System.currentTimeMillis();
         
+        String longMessage = "start slow ";
         for(int i=0;i<number;i++) {
-            logger.fatal("Oh boy!");
+            logger.fatal(longMessage+i);
          }
         
         long end = System.currentTimeMillis();
@@ -30,7 +31,7 @@ public class MultipleLogMsg {
     }
     
     public static void main(String[] args) {
-        int n = 30;
+        int n = 10;
         long time = multipleLogs(n);
         System.out.println("It took "+ time/1000.0 +" seconds - for "+n+" messages");
      

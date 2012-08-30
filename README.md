@@ -1,8 +1,8 @@
 What is this?
 =============
-- A Java Client for Amon.cx
+- A Java Client for Amon.cx and Amon+
 - Written as a log4j appender
-- Underlying mechanism is a very simplistic HTTP post - without any intelligence
+- Underlying mechanism is ZMQ Dealer
 
 Why?
 ====
@@ -13,11 +13,6 @@ Why?
 - This is just the first step in that direction
 - Wrappers are nice. If we move to another system from Amon - only the appender code needs to change. 
 
-ToDo
-=====
-- Non-blocking calls, using ZeroMQ OR AsyncHTTPClient
-- Or use smart connection pooling
-
 Usage
 =====
 - Simply attach the appender to your existing loggers. See source code under test/ for a simple example
@@ -27,7 +22,11 @@ Usage
 Dependencies
 ============
 - build.gradle lists the required jars (not the transitive dependencies)
-- You can use the task gradle dependencies to get an explicit list
+- You can use the task - gradle dependencies - to get an explicit list
+- jZMQ - You need libjzmq + zmq.jar. I built them using - https://github.com/zeromq/jzmq
+- When running the code - you may optionally need to specify -Djava.library.path=/location/of/libjzmq/
+- At the receiving end - make sure you have AmonMQ daemon. With Amon installation, the stock amonmq will work. Amon+ does not have Amonmq by default - you can get one here - https://github.com/manasg/amonmq-plus
+
 
 License
 =======

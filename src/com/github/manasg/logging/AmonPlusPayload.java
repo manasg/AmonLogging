@@ -14,5 +14,4 @@ public class AmonPlusPayload {
         
         return new Gson().toJson(p);
     }
-    
 }
